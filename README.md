@@ -2,7 +2,7 @@
 
 A lightweight, real-time bus tracking web application for Halifax Transit. Built to provide a faster, mobile-optimized alternative for daily commuters to check bus locations and route statuses.
 
-🔗 **Live Demo:** [https://wzjm.github.io/Halifax-Bus-Tracker/](https://wzjm.github.io/Halifax-Bus-Tracker/)
+🔗 **Live Demo:** [https://halifax-bus-tracker-psi.vercel.app/](https://halifax-bus-tracker-psi.vercel.app/)
 
 ![Project Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
