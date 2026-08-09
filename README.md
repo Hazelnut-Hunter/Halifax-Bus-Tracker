@@ -50,4 +50,4 @@ This website servers as a part of my **IB CAS** (Creativity, Activity, and Servi
 * **Map Tiles:** &copy; [OpenStreetMap](https://www.openstreetmap.org/copyright) Contributors.
 
 ---
-*Created by [WZJM(Joshua Wu)](https://github.com/WZJM).*
+*Created by [Hazelnut-Hunter(Joshua Wu)](https://github.com/Hazelnut-Hunter).*
