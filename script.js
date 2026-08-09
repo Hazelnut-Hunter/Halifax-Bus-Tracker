@@ -16,7 +16,10 @@ const translations = {
         searchPlaceholder: "Search Route (e.g. 1, 90)...",
         dirLabel: "Direction",
         inbound: "Inbound",
-        outbound: "Outbound"
+        outbound: "Outbound",
+        torontoTitle: "🏙️ Explore Toronto!",
+        torontoDesc: "Interested in exploring Toronto? We have service over there too!",
+        torontoBtn: "🚇 Visit TTC Live Tracker →"
     },
     fr: {
         navTitle: "Info-bus HRM",
@@ -34,7 +37,10 @@ const translations = {
         searchPlaceholder: "Chercher un itinéraire...",
         dirLabel: "Direction",
         inbound: "Aller",
-        outbound: "Retour"
+        outbound: "Retour",
+        torontoTitle: "🏙️ Explorer Toronto !",
+        torontoDesc: "Envie d'explorer Toronto ? Notre service y est également disponible !",
+        torontoBtn: "🚇 Découvrir TTC Live Tracker →"
     },
     zh: {
         navTitle: "哈利法克斯公交追踪器",
@@ -52,8 +58,10 @@ const translations = {
         searchPlaceholder: "搜索线路...",
         dirLabel: "方向",
         inbound: "上行",
-        outbound: "下行"
-
+        outbound: "下行",
+        torontoTitle: "🏙️ 探索多伦多！",
+        torontoDesc: "想了解多伦多公交吗？我们在多伦多也提供了实时追踪服务！",
+        torontoBtn: "🚇 访问多伦多 TTC 实时追踪器 →"
     }
 };
 // Time formating dictionary
@@ -84,6 +92,10 @@ function setLanguage(lang) {
 
     if (userMarker) {
         userMarker.setPopupContent(translations[lang].locationPopup);
+    }
+
+    if (typeof torontoMarker !== 'undefined' && torontoMarker && torontoMarker.getPopup()) {
+        torontoMarker.getPopup().setContent(createTorontoPopupContent());
     }
 
     Object.values(busMarkers).forEach(marker => {
@@ -527,3 +539,51 @@ function areSetsEqual(a, b) {
     for (const item of a) if (!b.has(item)) return false;
     return true;
 }
+
+// --- TORONTO CROSS-PROMOTION PIN ---
+const torontoIcon = L.divIcon({
+    className: 'toronto-promo-wrapper',
+    html: `
+        <div style="font-size: 26px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5)); cursor: pointer; transition: transform 0.2s ease;">
+            🚇
+        </div>
+    `,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18]
+});
+
+function createTorontoPopupContent() {
+    const t = translations[currentLang] || translations['en'];
+    return `
+        <div style="text-align: center; padding: 4px;">
+            <div style="font-size: 1.05rem; font-weight: 700; color: #DA291C; margin-bottom: 6px;">${t.torontoTitle}</div>
+            <div style="font-size: 0.85rem; margin-bottom: 10px; color: #333333;">${t.torontoDesc}</div>
+            <a href="https://gta-public-transportation-tracker.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: #DA291C; color: #ffffff; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+                ${t.torontoBtn}
+            </a>
+        </div>
+    `;
+}
+
+const torontoMarker = L.marker([43.6532, -79.3832], { icon: torontoIcon })
+    .bindPopup(createTorontoPopupContent());
+
+function checkTorontoPin() {
+    const zoom = map.getZoom();
+    const bounds = map.getBounds();
+    const isTorontoInView = bounds.contains([43.6532, -79.3832]);
+    
+    // Only show when user pans over Toronto and zooms in (zoom >= 11)
+    if (zoom >= 11 && isTorontoInView) {
+        if (!map.hasLayer(torontoMarker)) {
+            map.addLayer(torontoMarker);
+        }
+    } else {
+        if (map.hasLayer(torontoMarker)) {
+            map.removeLayer(torontoMarker);
+        }
+    }
+}
+
+map.on('zoomend moveend', checkTorontoPin);
+checkTorontoPin();
