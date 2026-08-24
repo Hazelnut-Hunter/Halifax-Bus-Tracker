@@ -37,6 +37,16 @@
             <input type="text" id="route-search" placeholder="Search Route (e.g. 1, 90)...">
             <button id="clear-search" onclick="clearSelection()" style="display:none;">✕</button>
         </div>
+        
+        <div id="shape-toggle-container">
+            <label class="switch-label" id="shape-toggle-label">
+                <input type="checkbox" id="shape-toggle-checkbox" disabled>
+                <span class="slider round"></span>
+                <span id="txt-shape-toggle" class="toggle-text">Show Route Shape & Stops</span>
+            </label>
+            <div id="shape-toggle-hint" class="toggle-hint"><span id="txt-shape-toggle-hint">Please select 1 to 3 routes to view shapes & stops</span></div>
+        </div>
+
         <div id="route-list" class="route-list-hidden"></div>
     </div>
 
@@ -58,6 +68,56 @@
         <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
         </svg>
         </button>
+    </div>
+
+    <!-- Site Info Button (Bottom Right) -->
+    <div id="site-info-container">
+        <button id="site-info-btn" onclick="openSiteInfoModal()" title="About & Instructions">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Site Info Modal -->
+    <div id="site-info-backdrop" class="modal-backdrop-hidden" onclick="closeSiteInfoModal(event)">
+        <div class="site-info-card" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeSiteInfoModal()">&times;</button>
+            
+            <h2 id="txt-about-title" class="site-info-title">About HRM Bus Tracker</h2>
+            <p id="txt-about-intro" class="site-info-intro">Welcome to HRM Bus Tracker! Here is what you can do on this website:</p>
+
+            <div class="info-features-grid">
+                <div class="feature-item">
+                    <h3 id="txt-feat1-title">🚌 Real-Time Bus Tracking</h3>
+                    <p id="txt-feat1-desc">Track live bus locations across Halifax Transit. Click any bus icon to view its route, destination, direction, and Bus ID.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="txt-feat2-title">🗺️ Route Shapes & GTFS Stops</h3>
+                    <p id="txt-feat2-desc">Select 1 to 3 routes to display GTFS route paths and stops with route labels. Multi-route shared stops dynamically display split color sector icons.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="txt-feat3-title">📍 Geolocation</h3>
+                    <p id="txt-feat3-desc">Use the location button to jump to your current location on the map.</p>
+                </div>
+                <div class="feature-item">
+                    <h3 id="txt-feat4-title">⭐ Favorites & Search</h3>
+                    <p id="txt-feat4-desc">Star your favorite routes for quick filtering anytime.</p>
+                </div>
+            </div>
+
+            <div class="instagram-banner">
+                <div class="instagram-header">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span id="txt-insta-title">Follow Us on Instagram!</span>
+                </div>
+                <a href="https://www.instagram.com/track_yourbus/" target="_blank" rel="noopener noreferrer" class="instagram-link-btn" id="txt-insta-btn">
+                    Visit @track_yourbus &rarr;
+                </a>
+            </div>
+        </div>
     </div>
 
     <div id="map"></div>

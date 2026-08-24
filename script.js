@@ -19,7 +19,25 @@ const translations = {
         outbound: "Outbound",
         torontoTitle: "🏙️ Explore Toronto!",
         torontoDesc: "Interested in exploring Toronto? We have service over there too!",
-        torontoBtn: "🚇 Visit TTC Live Tracker →"
+        torontoBtn: "🚇 Visit TTC Live Tracker →",
+        showShapesStops: "Show Route Shape & Stops",
+        promptSelectRoutes: "Please select 1 to 3 routes to view shapes & stops",
+        promptMaxRoutes: "Maximum 3 routes supported for shapes & stops",
+        stopIdLabel: "Stop ID",
+        servingRoutesLabel: "Routes on this stop",
+        destinationLabel: "Destination",
+        aboutTitle: "About HRM Bus Tracker",
+        aboutIntro: "Welcome to HRM Bus Tracker! Here is what you can do on this website:",
+        feat1Title: "🚌 Real-Time Bus Tracking",
+        feat1Desc: "Track live bus locations across Halifax Transit. Click any bus icon to view its route, destination, direction, and Bus ID.",
+        feat2Title: "🗺️ Route Shapes & GTFS Stops",
+        feat2Desc: "Select 1 to 3 routes to display GTFS route paths and stops with route labels. Multi-route shared stops dynamically display split color sector icons.",
+        feat3Title: "📍 Geolocation",
+        feat3Desc: "Use the location button to jump to your current location on the map.",
+        feat4Title: "⭐ Favorites & Search",
+        feat4Desc: "Star your favorite routes for quick filtering anytime.",
+        instaTitle: "Follow Us on Instagram!",
+        instaBtn: "Visit @track_yourbus →"
     },
     fr: {
         navTitle: "Info-bus HRM",
@@ -40,7 +58,25 @@ const translations = {
         outbound: "Retour",
         torontoTitle: "🏙️ Explorer Toronto !",
         torontoDesc: "Envie d'explorer Toronto ? Notre service y est également disponible !",
-        torontoBtn: "🚇 Découvrir TTC Live Tracker →"
+        torontoBtn: "🚇 Découvrir TTC Live Tracker →",
+        showShapesStops: "Afficher tracé & arrêts",
+        promptSelectRoutes: "Veuillez sélectionner de 1 à 3 lignes",
+        promptMaxRoutes: "Maximum 3 lignes supportées",
+        stopIdLabel: "ID de l'arrêt",
+        servingRoutesLabel: "Lignes à cet arrêt",
+        destinationLabel: "Destination",
+        aboutTitle: "À propos d'Info-bus HRM",
+        aboutIntro: "Bienvenue sur Info-bus HRM ! Voici les fonctionnalités disponibles :",
+        feat1Title: "🚌 Suivi des bus en temps réel",
+        feat1Desc: "Suivez les positions en direct des bus d'Halifax Transit. Cliquez sur un bus pour voir sa ligne, sa destination, sa direction et l'ID du bus.",
+        feat2Title: "🗺️ Tracés et arrêts GTFS",
+        feat2Desc: "Sélectionnez de 1 à 3 lignes pour afficher les parcours et les arrêts avec étiquettes de ligne.",
+        feat3Title: "📍 Géolocalisation",
+        feat3Desc: "Utilisez le bouton de géolocalisation pour vous situer sur la carte.",
+        feat4Title: "⭐ Favoris et Recherche",
+        feat4Desc: "Ajoutez vos lignes préférées aux favoris pour un accès rapide.",
+        instaTitle: "Suivez-nous sur Instagram !",
+        instaBtn: "Découvrir @track_yourbus →"
     },
     zh: {
         navTitle: "哈利法克斯公交追踪器",
@@ -61,7 +97,25 @@ const translations = {
         outbound: "下行",
         torontoTitle: "🏙️ 探索多伦多！",
         torontoDesc: "想了解多伦多公交吗？我们在多伦多也提供了实时追踪服务！",
-        torontoBtn: "🚇 访问多伦多 TTC 实时追踪器 →"
+        torontoBtn: "🚇 访问多伦多 TTC 实时追踪器 →",
+        showShapesStops: "显示线路走向与站点",
+        promptSelectRoutes: "请选择 1 至 3 条线路以显示走向与站点",
+        promptMaxRoutes: "最多支持 3 条线路显示走向与站点",
+        stopIdLabel: "站点 ID",
+        servingRoutesLabel: "途经线路",
+        destinationLabel: "终点/方向",
+        aboutTitle: "关于哈利法克斯公交追踪器",
+        aboutIntro: "欢迎使用哈利法克斯公交追踪器！本网站的核心功能如下：",
+        feat1Title: "🚌 实时公交追踪",
+        feat1Desc: "实时追踪 Halifax Transit 公交车位置。点击公交图标可查看线路、终点方向、行驶方向及车辆 ID。",
+        feat2Title: "🗺️ 线路走向与 GTFS 站点",
+        feat2Desc: "勾选 1 至 3 条线路，即可在地图上显示线路走向及带有线路编号标识的站点。共用站点显示多色分段图标。",
+        feat3Title: "📍 我的位置",
+        feat3Desc: "点击定位按钮快速定位至您当前的 GPS 位置。",
+        feat4Title: "⭐ 收藏与搜索",
+        feat4Desc: "点击星号收藏常用线路，方便快速筛选。",
+        instaTitle: "关注我们的 Instagram！",
+        instaBtn: "访问 @track_yourbus →"
     }
 };
 // Time formating dictionary
@@ -77,6 +131,11 @@ const timeFormat = {
     }
 };
 
+// API Base URL (Localhost fallback for local testing vs Production backend)
+const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:3000'
+    : 'https://halifax-bus-tracker-backend.onrender.com';
+
 let currentLang = 'en'; // Default language
 
 // Langugae function
@@ -89,6 +148,21 @@ function setLanguage(lang) {
     document.getElementById('txt-time').textContent = translations[lang].timeLabel;
     document.getElementById('txt-loading-msg').textContent = translations[lang].serverWaking;
     document.getElementById('route-search').placeholder = translations[lang].searchPlaceholder;
+
+    if (document.getElementById('txt-about-title')) {
+        document.getElementById('txt-about-title').textContent = translations[lang].aboutTitle;
+        document.getElementById('txt-about-intro').textContent = translations[lang].aboutIntro;
+        document.getElementById('txt-feat1-title').textContent = translations[lang].feat1Title;
+        document.getElementById('txt-feat1-desc').textContent = translations[lang].feat1Desc;
+        document.getElementById('txt-feat2-title').textContent = translations[lang].feat2Title;
+        document.getElementById('txt-feat2-desc').textContent = translations[lang].feat2Desc;
+        document.getElementById('txt-feat3-title').textContent = translations[lang].feat3Title;
+        document.getElementById('txt-feat3-desc').textContent = translations[lang].feat3Desc;
+        document.getElementById('txt-feat4-title').textContent = translations[lang].feat4Title;
+        document.getElementById('txt-feat4-desc').textContent = translations[lang].feat4Desc;
+        document.getElementById('txt-insta-title').textContent = translations[lang].instaTitle;
+        document.getElementById('txt-insta-btn').textContent = translations[lang].instaBtn;
+    }
 
     if (userMarker) {
         userMarker.setPopupContent(translations[lang].locationPopup);
@@ -103,25 +177,60 @@ function setLanguage(lang) {
             // Get the new labels (e.g., "Route" or "路线")
             const routeLabel = translations[lang].routeLabel;
             const busLabel = translations[lang].busLabel;
-            
-            // Re-create the popup string using the saved busData
-            const newContent = `<b>${routeLabel} ${marker.busData.routeId}</b><br>${busLabel}: ${marker.busData.id}<br>${dirLabel}: ${dirText}`;
-            
-            // Update the text immediately
+            const dirLabel = translations[lang].dirLabel;
+            const destLabel = translations[lang].destinationLabel || "Destination";
+            const name = routeNames[marker.busData.routeId] ? ` (${routeNames[marker.busData.routeId]})` : "";
+
+            let dirText = "";
+            if (marker.busData.directionId === 0) {
+                dirText = translations[lang].outbound;
+            } else if (marker.busData.directionId === 1) {
+                dirText = translations[lang].inbound;
+            }
+
+            const destRow = marker.busData.headsign ? `<br><b>${destLabel}:</b> ${marker.busData.headsign}` : "";
+            const dirRow = dirText ? `<br><b>${dirLabel}:</b> ${dirText}` : "";
+
+            const newContent = `<b>${routeLabel} ${marker.busData.routeId}</b>${name}${destRow}${dirRow}<br><b>${busLabel}:</b> ${marker.busData.id}`;
             marker.setPopupContent(newContent);
         }
     }); 
 
     if (currentBusData.length > 0) {
-        // Clear the cache so the function thinks it's new data
         availableRoutes.clear(); 
-        // Re-run the builder with the current data
         updateRouteDropdown(currentBusData); 
     }
     
-    // Update the time immediately so it doesn't wait 1 second to translate
+    if (typeof updateShapeToggleUI === 'function') {
+        updateShapeToggleUI();
+    }
+
     updateTime(); 
 }
+
+// Site Information Modal Functions
+function openSiteInfoModal() {
+    const backdrop = document.getElementById('site-info-backdrop');
+    if (backdrop) {
+        backdrop.classList.remove('modal-backdrop-hidden');
+    }
+}
+
+function closeSiteInfoModal(e) {
+    if (e && e.target && e.target !== document.getElementById('site-info-backdrop') && !e.target.classList.contains('modal-close-btn')) {
+        return;
+    }
+    const backdrop = document.getElementById('site-info-backdrop');
+    if (backdrop) {
+        backdrop.classList.add('modal-backdrop-hidden');
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeSiteInfoModal();
+    }
+});
 
 // Time function
 function updateTime() {
@@ -141,6 +250,8 @@ setInterval(updateTime, 1000);
 
 // Initialize the map centered on Halifax
 const map = L.map('map').setView([44.6488, -63.5752], 13);
+map.createPane('busesPane');
+map.getPane('busesPane').style.zIndex = 650;
 
         // Add the background map tiles (using OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -196,7 +307,7 @@ let isFirstLoad = true;
 
 async function updateBuses() {
     try {
-        const response = await fetch('https://halifax-bus-tracker-backend.onrender.com/buses');
+        const response = await fetch(`${API_BASE_URL}/buses`);
         
         // --- NEW: READ SERVER HEADER ---
         const serverStaleCount = response.headers.get('X-Stale-Count');
@@ -240,19 +351,23 @@ async function updateBuses() {
 
             const routeLabel = translations[currentLang].routeLabel;
             const busLabel = translations[currentLang].busLabel;
-            const name = routeNames[bus.routeId] ? ` (${routeNames[bus.routeId]})` : "";
             const dirLabel = translations[currentLang].dirLabel;
+            const destLabel = translations[currentLang].destinationLabel || "Destination";
+            const name = routeNames[bus.routeId] ? ` (${routeNames[bus.routeId]})` : "";
 
+            let dirText = "";
             if (bus.directionId === 0) {
                 dirText = translations[currentLang].outbound;
             } else if (bus.directionId === 1) {
                 dirText = translations[currentLang].inbound;
             }
+
+            const destRow = bus.headsign ? `<br><b>${destLabel}:</b> ${bus.headsign}` : "";
+            const dirRow = dirText ? `<br><b>${dirLabel}:</b> ${dirText}` : "";
             
             const popupContentBus = `
-                <b>${routeLabel} ${bus.routeId}</b>${name}<br>
-                ${dirLabel}: ${dirText}<br>
-                ${busLabel}: ${bus.id}
+                <b>${routeLabel} ${bus.routeId}</b>${name}${destRow}${dirRow}<br>
+                <b>${busLabel}:</b> ${bus.id}
             `;
 
             const customIcon = L.divIcon({
@@ -280,7 +395,11 @@ async function updateBuses() {
                     busMarkers[bus.id].addTo(map);
                 }
             } else {
-                const marker = L.marker([bus.latitude, bus.longitude], {icon: customIcon}).addTo(map);
+                const marker = L.marker([bus.latitude, bus.longitude], {
+                    icon: customIcon,
+                    pane: 'busesPane',
+                    zIndexOffset: 1000
+                }).addTo(map);
                 marker.bindPopup(popupContentBus);
                 marker.busData = bus;
                 busMarkers[bus.id] = marker;
@@ -310,7 +429,7 @@ async function updateBuses() {
         // --- ROUTE NAMES FETCHER ---
 async function fetchRouteNames() {
     try {
-        const response = await fetch('https://halifax-bus-tracker-backend.onrender.com/routes');
+        const response = await fetch(`${API_BASE_URL}/routes`);
         routeNames = await response.json();
         console.log("Route names loaded.");
         
@@ -419,6 +538,7 @@ function clearSelection() {
     document.querySelectorAll('.route-item').forEach(item => item.style.display = 'flex');
     
     updateBuses(); // Refresh map to show all
+    updateShapeToggleUI(); // Refresh shape toggle UI state
 }
 
 // 4. Update the Selection Set
@@ -437,6 +557,7 @@ function toggleRoute(routeId, isChecked) {
     }
     
     updateBuses(); // Refresh map immediately
+    updateShapeToggleUI(); // Refresh shape toggle UI state
 }
 
 // 5. Build the Dropdown List
@@ -587,3 +708,234 @@ function checkTorontoPin() {
 
 map.on('zoomend moveend', checkTorontoPin);
 checkTorontoPin();
+
+// =========================================
+// ROUTE SHAPES & STOPS SYSTEM
+// =========================================
+const routeShapeGroup = L.layerGroup().addTo(map);
+const routeStopGroup = L.layerGroup().addTo(map);
+const routeColorPalette = ['#3498db', '#e74c3c', '#2ecc71']; // Blue, Coral Red, Emerald Green
+let isShapeToggleChecked = false;
+
+const shapeCheckbox = document.getElementById('shape-toggle-checkbox');
+const shapeLabel = document.getElementById('shape-toggle-label');
+const shapeHint = document.getElementById('shape-toggle-hint');
+
+if (shapeCheckbox) {
+    shapeCheckbox.addEventListener('change', (e) => {
+        isShapeToggleChecked = e.target.checked;
+        updateShapeToggleUI();
+    });
+}
+
+function updateShapeToggleUI() {
+    const size = selectedRoutes.size;
+    const t = translations[currentLang] || translations['en'];
+    
+    const toggleTextEl = document.getElementById('txt-shape-toggle');
+    if (toggleTextEl) toggleTextEl.textContent = t.showShapesStops;
+
+    const toggleHintEl = document.getElementById('txt-shape-toggle-hint');
+
+    if (size === 0) {
+        if (shapeCheckbox) {
+            shapeCheckbox.disabled = true;
+            shapeCheckbox.checked = false;
+        }
+        isShapeToggleChecked = false;
+        if (shapeLabel) shapeLabel.classList.add('disabled');
+        if (toggleHintEl) toggleHintEl.textContent = t.promptSelectRoutes;
+        clearRouteShapesAndStops();
+    } else if (size <= 3) {
+        if (shapeCheckbox) shapeCheckbox.disabled = false;
+        if (shapeLabel) shapeLabel.classList.remove('disabled');
+        if (toggleHintEl) toggleHintEl.textContent = "";
+        
+        if (isShapeToggleChecked) {
+            renderRouteShapesAndStops();
+        } else {
+            clearRouteShapesAndStops();
+        }
+    } else {
+        if (shapeCheckbox) {
+            shapeCheckbox.disabled = true;
+            shapeCheckbox.checked = false;
+        }
+        isShapeToggleChecked = false;
+        if (shapeLabel) shapeLabel.classList.add('disabled');
+        if (toggleHintEl) toggleHintEl.textContent = t.promptMaxRoutes;
+        clearRouteShapesAndStops();
+    }
+}
+
+function clearRouteShapesAndStops() {
+    routeShapeGroup.clearLayers();
+    routeStopGroup.clearLayers();
+}
+
+function createSplitStopIcon(routesList) {
+    const count = routesList.length;
+    const labels = routesList.map(r => r.routeId);
+    const labelText = labels.join(',');
+
+    let width = 24;
+    let height = 24;
+    let fontSize = 11;
+    if (count === 2) {
+        width = 38;
+        fontSize = 10;
+    }
+    if (count >= 3) {
+        width = 50;
+        fontSize = 9;
+    }
+
+    const r = height / 2;
+    let paths = '';
+
+    if (count === 1) {
+        const color = routesList[0].color;
+        paths = `<rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="${r - 1}" fill="${color}" stroke="#ffffff" stroke-width="1.5"/>`;
+    } else if (count === 2) {
+        const c1 = routesList[0].color;
+        const c2 = routesList[1].color;
+        const mid = width / 2;
+        paths = `
+            <path d="M ${r} 1 H ${mid} V ${height - 1} H ${r} A ${r - 1} ${r - 1} 0 0 1 ${r} 1 Z" fill="${c1}"/>
+            <path d="M ${mid} 1 H ${width - r} A ${r - 1} ${r - 1} 0 0 1 ${width - r} ${height - 1} H ${mid} Z" fill="${c2}"/>
+            <rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="${r - 1}" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+        `;
+    } else {
+        const w1 = width / 3;
+        const c1 = routesList[0].color;
+        const c2 = routesList[1].color;
+        const c3 = routesList[2].color;
+        paths = `
+            <path d="M ${r} 1 H ${w1} V ${height - 1} H ${r} A ${r - 1} ${r - 1} 0 0 1 ${r} 1 Z" fill="${c1}"/>
+            <rect x="${w1}" y="1" width="${w1}" height="${height - 2}" fill="${c2}"/>
+            <path d="M ${2 * w1} 1 H ${width - r} A ${r - 1} ${r - 1} 0 0 1 ${width - r} ${height - 1} H ${2 * w1} Z" fill="${c3}"/>
+            <rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="${r - 1}" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+        `;
+    }
+
+    return `
+        <div class="stop-icon-container" style="width:${width}px; height:${height}px;">
+            <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+                ${paths}
+                <text x="50%" y="55%" dominant-baseline="central" text-anchor="middle" fill="#ffffff" font-size="${fontSize}px" font-weight="900" font-family="'Segoe UI', Arial, sans-serif" style="text-shadow: 0 0 3px #000, 0 0 3px #000;">${labelText}</text>
+            </svg>
+        </div>
+    `;
+}
+
+async function renderRouteShapesAndStops() {
+    if (selectedRoutes.size === 0 || selectedRoutes.size > 3 || !isShapeToggleChecked) {
+        clearRouteShapesAndStops();
+        return;
+    }
+
+    const activeRoutes = Array.from(selectedRoutes).slice(0, 3);
+    const routesParam = activeRoutes.join(',');
+
+    const assignedColors = {};
+    activeRoutes.forEach((rId, idx) => {
+        assignedColors[rId] = routeColorPalette[idx % routeColorPalette.length];
+    });
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/route-details?routes=${encodeURIComponent(routesParam)}`);
+        if (!response.ok) return;
+        const data = await response.json();
+
+        clearRouteShapesAndStops();
+
+        const aggregatedStops = {};
+
+        activeRoutes.forEach((routeId) => {
+            const rData = data[routeId];
+            if (!rData) return;
+
+            const routeColor = rData.color || assignedColors[routeId];
+            assignedColors[routeId] = routeColor;
+
+            if (rData.directions) {
+                Object.values(rData.directions).forEach(dir => {
+                    if (dir.shape && dir.shape.length > 0) {
+                        const polyline = L.polyline(dir.shape, {
+                            color: routeColor,
+                            weight: 4,
+                            opacity: 0.85,
+                            smoothFactor: 1.0
+                        });
+                        polyline.addTo(routeShapeGroup);
+                    }
+
+                    if (dir.stops && dir.stops.length > 0) {
+                        dir.stops.forEach(s => {
+                            if (!aggregatedStops[s.id]) {
+                                aggregatedStops[s.id] = {
+                                    stop: s,
+                                    routesMap: {}
+                                };
+                            }
+                            aggregatedStops[s.id].routesMap[routeId] = {
+                                routeId: routeId,
+                                color: routeColor,
+                                directionId: s.directionId,
+                                headsign: dir.headsign || s.headsign || ''
+                            };
+                        });
+                    }
+                });
+            }
+        });
+
+        const t = translations[currentLang] || translations['en'];
+
+        Object.values(aggregatedStops).forEach(item => {
+            const { stop, routesMap } = item;
+            const routesList = Object.values(routesMap);
+
+            const iconHtml = createSplitStopIcon(routesList);
+            let iconWidth = 24;
+            if (routesList.length === 2) iconWidth = 38;
+            if (routesList.length >= 3) iconWidth = 50;
+
+            const customIcon = L.divIcon({
+                className: 'stop-marker-wrapper',
+                html: iconHtml,
+                iconSize: [iconWidth, 22],
+                iconAnchor: [iconWidth / 2, 11]
+            });
+
+            const marker = L.marker([stop.lat, stop.lon], { icon: customIcon }).addTo(routeStopGroup);
+
+            const routeRows = routesList.map(r => {
+                const destination = r.headsign ? `<span style="font-size:11px; color:#555;"> → ${r.headsign}</span>` : '';
+                return `
+                    <div style="margin-top: 4px; display: flex; align-items: center; gap: 6px;">
+                        <span class="route-pill" style="background-color: ${r.color};">${r.routeId}</span>
+                        ${destination}
+                    </div>
+                `;
+            }).join('');
+
+            const popupContent = `
+                <div class="stop-popup-container">
+                    <div class="stop-popup-title">${stop.name}</div>
+                    <div class="stop-popup-detail"><b>${t.stopIdLabel}:</b> ${stop.code || stop.id}</div>
+                    <div class="stop-popup-detail" style="margin-top:6px;"><b>${t.servingRoutesLabel}:</b></div>
+                    ${routeRows}
+                </div>
+            `;
+
+            marker.bindPopup(popupContent);
+        });
+
+    } catch (err) {
+        console.error("Error fetching route details:", err);
+    }
+}
+
+// Initial UI check for shape toggle
+updateShapeToggleUI();
