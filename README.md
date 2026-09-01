@@ -65,4 +65,4 @@ This web application serves as a core project within my **International Baccalau
 
 ---
 
-*Created with ❤️ by [WZJM (Joshua Wu)](https://github.com/WZJM).*
+*Created with ❤️ by [Hazelnut Hunter (Joshua Wu)](https://github.com/Hazelnut-Hunter).*
