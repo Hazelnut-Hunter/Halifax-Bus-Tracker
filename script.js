@@ -17,9 +17,10 @@ const translations = {
         dirLabel: "Direction",
         inbound: "Inbound",
         outbound: "Outbound",
-        torontoTitle: "🏙️ Explore Toronto!",
-        torontoDesc: "Interested in exploring Toronto? We have service over there too!",
-        torontoBtn: "🚇 Visit TTC Live Tracker →",
+        speedLabel: "Speed",
+        torontoTitle: "🏙️ GTA Live Transit Tracker",
+        torontoDesc: "Interested in exploring the Greater Toronto Area? Check out GTA Live Transit Tracker!",
+        torontoBtn: "🚇 Visit GTA Live Transit Tracker →",
         showShapesStops: "Show Route Shape & Stops",
         promptSelectRoutes: "Please select 1 to 3 routes to view shapes & stops",
         promptMaxRoutes: "Maximum 3 routes supported for shapes & stops",
@@ -29,15 +30,20 @@ const translations = {
         aboutTitle: "About HRM Bus Tracker",
         aboutIntro: "Welcome to HRM Bus Tracker! Here is what you can do on this website:",
         feat1Title: "🚌 Real-Time Bus Tracking",
-        feat1Desc: "Track live bus locations across Halifax Transit. Click any bus icon to view its route, destination, direction, and Bus ID.",
+        feat1Desc: "Track live bus locations across Halifax Transit. Click any bus icon to view its route, destination, direction, speed, and Bus ID.",
         feat2Title: "🗺️ Route Shapes & GTFS Stops",
         feat2Desc: "Select 1 to 3 routes to display GTFS route paths and stops with route labels. Multi-route shared stops dynamically display split color sector icons.",
         feat3Title: "📍 Geolocation",
         feat3Desc: "Use the location button to jump to your current location on the map.",
         feat4Title: "⭐ Favorites & Search",
         feat4Desc: "Star your favorite routes for quick filtering anytime.",
+        feat5Title: "🏙️ GTA Live Transit Tracker",
+        feat5Desc: "Exploring Toronto? Check out our sister project for live transit tracking across the Greater Toronto Area.",
         instaTitle: "Follow Us on Instagram!",
-        instaBtn: "Visit @track_yourbus →"
+        instaBtn: "Visit @track_yourbus →",
+        githubTitle: "🐙 Open Source GitHub Repositories",
+        githubFrontend: "Frontend Repo →",
+        githubBackend: "Backend Repo →"
     },
     fr: {
         navTitle: "Info-bus HRM",
@@ -56,9 +62,10 @@ const translations = {
         dirLabel: "Direction",
         inbound: "Aller",
         outbound: "Retour",
-        torontoTitle: "🏙️ Explorer Toronto !",
-        torontoDesc: "Envie d'explorer Toronto ? Notre service y est également disponible !",
-        torontoBtn: "🚇 Découvrir TTC Live Tracker →",
+        speedLabel: "Vitesse",
+        torontoTitle: "🏙️ GTA Live Transit Tracker",
+        torontoDesc: "Vous explorez le Grand Toronto ? Découvrez notre projet partenaire, GTA Live Transit Tracker !",
+        torontoBtn: "🚇 Découvrir GTA Live Transit Tracker →",
         showShapesStops: "Afficher tracé & arrêts",
         promptSelectRoutes: "Veuillez sélectionner de 1 à 3 lignes",
         promptMaxRoutes: "Maximum 3 lignes supportées",
@@ -68,15 +75,20 @@ const translations = {
         aboutTitle: "À propos d'Info-bus HRM",
         aboutIntro: "Bienvenue sur Info-bus HRM ! Voici les fonctionnalités disponibles :",
         feat1Title: "🚌 Suivi des bus en temps réel",
-        feat1Desc: "Suivez les positions en direct des bus d'Halifax Transit. Cliquez sur un bus pour voir sa ligne, sa destination, sa direction et l'ID du bus.",
+        feat1Desc: "Suivez les positions en direct des bus d'Halifax Transit. Cliquez sur un bus pour voir sa ligne, sa destination, sa direction, sa vitesse et l'ID du bus.",
         feat2Title: "🗺️ Tracés et arrêts GTFS",
         feat2Desc: "Sélectionnez de 1 à 3 lignes pour afficher les parcours et les arrêts avec étiquettes de ligne.",
         feat3Title: "📍 Géolocalisation",
         feat3Desc: "Utilisez le bouton de géolocalisation pour vous situer sur la carte.",
         feat4Title: "⭐ Favoris et Recherche",
         feat4Desc: "Ajoutez vos lignes préférées aux favoris pour un accès rapide.",
+        feat5Title: "🏙️ GTA Live Transit Tracker",
+        feat5Desc: "Vous explorez Toronto ? Découvrez notre projet partenaire pour le suivi des transports dans le Grand Toronto.",
         instaTitle: "Suivez-nous sur Instagram !",
-        instaBtn: "Découvrir @track_yourbus →"
+        instaBtn: "Découvrir @track_yourbus →",
+        githubTitle: "🐙 Dépôts GitHub Open Source",
+        githubFrontend: "Dépôt Frontend →",
+        githubBackend: "Dépôt Backend →"
     },
     zh: {
         navTitle: "哈利法克斯公交追踪器",
@@ -95,9 +107,10 @@ const translations = {
         dirLabel: "方向",
         inbound: "上行",
         outbound: "下行",
-        torontoTitle: "🏙️ 探索多伦多！",
-        torontoDesc: "想了解多伦多公交吗？我们在多伦多也提供了实时追踪服务！",
-        torontoBtn: "🚇 访问多伦多 TTC 实时追踪器 →",
+        speedLabel: "速度",
+        torontoTitle: "🏙️ GTA 实时公交追踪器",
+        torontoDesc: "正在探索大多伦多地区？欢迎体验我们的姐妹项目大多伦多 (GTA) 实时公交追踪器！",
+        torontoBtn: "🚇 访问 GTA 实时公交追踪器 →",
         showShapesStops: "显示线路走向与站点",
         promptSelectRoutes: "请选择 1 至 3 条线路以显示走向与站点",
         promptMaxRoutes: "最多支持 3 条线路显示走向与站点",
@@ -107,15 +120,20 @@ const translations = {
         aboutTitle: "关于哈利法克斯公交追踪器",
         aboutIntro: "欢迎使用哈利法克斯公交追踪器！本网站的核心功能如下：",
         feat1Title: "🚌 实时公交追踪",
-        feat1Desc: "实时追踪 Halifax Transit 公交车位置。点击公交图标可查看线路、终点方向、行驶方向及车辆 ID。",
+        feat1Desc: "实时追踪 Halifax Transit 公交车位置。点击公交图标可查看线路、终点方向、行驶方向、速度及车辆 ID。",
         feat2Title: "🗺️ 线路走向与 GTFS 站点",
         feat2Desc: "勾选 1 至 3 条线路，即可在地图上显示线路走向及带有线路编号标识的站点。共用站点显示多色分段图标。",
         feat3Title: "📍 我的位置",
         feat3Desc: "点击定位按钮快速定位至您当前的 GPS 位置。",
         feat4Title: "⭐ 收藏与搜索",
         feat4Desc: "点击星号收藏常用线路，方便快速筛选。",
+        feat5Title: "🏙️ GTA 实时公交追踪器",
+        feat5Desc: "正在探索多伦多？欢迎体验大多伦多地区 (GTA) 实时公交追踪器姐妹项目。",
         instaTitle: "关注我们的 Instagram！",
-        instaBtn: "访问 @track_yourbus →"
+        instaBtn: "访问 @track_yourbus →",
+        githubTitle: "🐙 开源 GitHub 代码库",
+        githubFrontend: "前端代码库 →",
+        githubBackend: "后端代码库 →"
     }
 };
 // Time formating dictionary
@@ -137,6 +155,55 @@ const API_BASE_URL = (window.location.hostname === 'localhost' || window.locatio
     : 'https://halifax-bus-tracker-backend.onrender.com';
 
 let currentLang = 'en'; // Default language
+
+// Helper to check if a route is Express
+function isExpressRoute(routeId, routeName = "") {
+    const idNum = parseInt(String(routeId).replace(/\D/g, '')) || 0;
+    const nameUpper = String(routeName).toUpperCase();
+    return (idNum >= 100 || nameUpper.includes("EXPRESS") || nameUpper.includes("EXP"));
+}
+
+// GTA-Style Bus Popup Generator
+function createBusPopupContent(bus, lang = currentLang) {
+    const t = translations[lang] || translations['en'];
+    const rName = routeNames[bus.routeId] || "";
+    const isExp = isExpressRoute(bus.routeId, rName);
+
+    const badgeColor = isExp ? "#27ae60" : "#0056b3";
+    const badgeText = isExp ? "EXP" : "HRM";
+
+    const routeTitleText = `${t.routeLabel || 'Route'} ${bus.routeId}`;
+
+    let dirText = "";
+    if (bus.directionId === 0) dirText = t.outbound;
+    else if (bus.directionId === 1) dirText = t.inbound;
+
+    const speedKmH = (bus.speed !== undefined && bus.speed !== null && bus.speed >= 0)
+        ? Math.round(bus.speed * 3.6)
+        : null;
+
+    const speedText = speedKmH !== null ? `${speedKmH} km/h` : null;
+    const destHeadsign = bus.headsign || "";
+
+    return `
+        <div class="gta-bus-popup">
+            <div class="gta-popup-header">
+                <span class="gta-route-badge" style="background-color: ${badgeColor};">${badgeText}</span>
+                <span class="gta-route-title">${routeTitleText}</span>
+            </div>
+            ${rName ? `<div class="gta-route-name">${rName}</div>` : ''}
+            ${destHeadsign ? `<div class="gta-dest-headsign">🎯 ${destHeadsign}</div>` : ''}
+            
+            <div class="gta-popup-divider"></div>
+
+            <div class="gta-popup-details">
+                <div class="gta-detail-row"><b>${t.busLabel || 'Bus ID'}:</b> <span>${bus.id}</span></div>
+                ${dirText ? `<div class="gta-detail-row"><b>${t.dirLabel || 'Direction'}:</b> <span>${dirText}</span></div>` : ''}
+                ${speedText !== null ? `<div class="gta-detail-row"><b>${t.speedLabel || 'Speed'}:</b> <span>${speedText}</span></div>` : ''}
+            </div>
+        </div>
+    `;
+}
 
 // Langugae function
 function setLanguage(lang) {
@@ -160,8 +227,13 @@ function setLanguage(lang) {
         document.getElementById('txt-feat3-desc').textContent = translations[lang].feat3Desc;
         document.getElementById('txt-feat4-title').textContent = translations[lang].feat4Title;
         document.getElementById('txt-feat4-desc').textContent = translations[lang].feat4Desc;
+        document.getElementById('txt-feat5-title').textContent = translations[lang].feat5Title;
+        document.getElementById('txt-feat5-desc').textContent = translations[lang].feat5Desc;
         document.getElementById('txt-insta-title').textContent = translations[lang].instaTitle;
         document.getElementById('txt-insta-btn').textContent = translations[lang].instaBtn;
+        document.getElementById('txt-github-title').textContent = translations[lang].githubTitle;
+        document.getElementById('txt-github-frontend').textContent = translations[lang].githubFrontend;
+        document.getElementById('txt-github-backend').textContent = translations[lang].githubBackend;
     }
 
     if (userMarker) {
@@ -174,25 +246,7 @@ function setLanguage(lang) {
 
     Object.values(busMarkers).forEach(marker => {
         if (marker.busData) {
-            // Get the new labels (e.g., "Route" or "路线")
-            const routeLabel = translations[lang].routeLabel;
-            const busLabel = translations[lang].busLabel;
-            const dirLabel = translations[lang].dirLabel;
-            const destLabel = translations[lang].destinationLabel || "Destination";
-            const name = routeNames[marker.busData.routeId] ? ` (${routeNames[marker.busData.routeId]})` : "";
-
-            let dirText = "";
-            if (marker.busData.directionId === 0) {
-                dirText = translations[lang].outbound;
-            } else if (marker.busData.directionId === 1) {
-                dirText = translations[lang].inbound;
-            }
-
-            const destRow = marker.busData.headsign ? `<br><b>${destLabel}:</b> ${marker.busData.headsign}` : "";
-            const dirRow = dirText ? `<br><b>${dirLabel}:</b> ${dirText}` : "";
-
-            const newContent = `<b>${routeLabel} ${marker.busData.routeId}</b>${name}${destRow}${dirRow}<br><b>${busLabel}:</b> ${marker.busData.id}`;
-            marker.setPopupContent(newContent);
+            marker.setPopupContent(createBusPopupContent(marker.busData, lang));
         }
     }); 
 
@@ -349,26 +403,7 @@ async function updateBuses() {
 
             activeBusIds.add(bus.id); // Mark as active
 
-            const routeLabel = translations[currentLang].routeLabel;
-            const busLabel = translations[currentLang].busLabel;
-            const dirLabel = translations[currentLang].dirLabel;
-            const destLabel = translations[currentLang].destinationLabel || "Destination";
-            const name = routeNames[bus.routeId] ? ` (${routeNames[bus.routeId]})` : "";
-
-            let dirText = "";
-            if (bus.directionId === 0) {
-                dirText = translations[currentLang].outbound;
-            } else if (bus.directionId === 1) {
-                dirText = translations[currentLang].inbound;
-            }
-
-            const destRow = bus.headsign ? `<br><b>${destLabel}:</b> ${bus.headsign}` : "";
-            const dirRow = dirText ? `<br><b>${dirLabel}:</b> ${dirText}` : "";
-            
-            const popupContentBus = `
-                <b>${routeLabel} ${bus.routeId}</b>${name}${destRow}${dirRow}<br>
-                <b>${busLabel}:</b> ${bus.id}
-            `;
+            const popupContentBus = createBusPopupContent(bus, currentLang);
 
             const customIcon = L.divIcon({
                 className: 'custom-bus-icon-wrapper', 
@@ -694,8 +729,8 @@ function checkTorontoPin() {
     const bounds = map.getBounds();
     const isTorontoInView = bounds.contains([43.6532, -79.3832]);
     
-    // Only show when user pans over Toronto and zooms in (zoom >= 11)
-    if (zoom >= 11 && isTorontoInView) {
+    // Show pin when user pans over Toronto region (zoom >= 4)
+    if (zoom >= 4 && isTorontoInView) {
         if (!map.hasLayer(torontoMarker)) {
             map.addLayer(torontoMarker);
         }
