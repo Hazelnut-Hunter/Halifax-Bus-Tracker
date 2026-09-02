@@ -1,8 +1,8 @@
 // Language Dictionary
 const translations = {
     en: {
-        navTitle: "HRM Bus Tracker",
-        welcome: "Thank you for using HRM Bus Tracker!",
+        navTitle: "Halifax Bus Tracker",
+        welcome: "Thank you for using Halifax Bus Tracker!",
         timeLabel: "Current Time:",
         loading: "Loading...",
         errorTitle: "Data Feed Error",
@@ -27,8 +27,8 @@ const translations = {
         stopIdLabel: "Stop ID",
         servingRoutesLabel: "Routes on this stop",
         destinationLabel: "Destination",
-        aboutTitle: "About HRM Bus Tracker",
-        aboutIntro: "Welcome to HRM Bus Tracker! Here is what you can do on this website:",
+        aboutTitle: "About Halifax Bus Tracker",
+        aboutIntro: "Welcome to Halifax Bus Tracker! Here is what you can do on this website:",
         feat1Title: "🚌 Real-Time Bus Tracking",
         feat1Desc: "Track live bus locations across Halifax Transit. Click any bus icon to view its route, destination, direction, speed, and Bus ID.",
         feat2Title: "🗺️ Route Shapes & GTFS Stops",
@@ -46,8 +46,8 @@ const translations = {
         githubBackend: "Backend Repo →"
     },
     fr: {
-        navTitle: "Info-bus HRM",
-        welcome: "Merci d'avoir utilisé Info-bus HRM",
+        navTitle: "Info-bus Halifax",
+        welcome: "Merci d'avoir utilisé Info-bus Halifax",
         timeLabel: "Heure actuelle:",
         loading: "Chargement...",
         errorTitle: "Erreur de flux de données",
@@ -72,8 +72,8 @@ const translations = {
         stopIdLabel: "ID de l'arrêt",
         servingRoutesLabel: "Lignes à cet arrêt",
         destinationLabel: "Destination",
-        aboutTitle: "À propos d'Info-bus HRM",
-        aboutIntro: "Bienvenue sur Info-bus HRM ! Voici les fonctionnalités disponibles :",
+        aboutTitle: "À propos d'Info-bus Halifax",
+        aboutIntro: "Bienvenue sur Info-bus Halifax ! Voici les fonctionnalités disponibles :",
         feat1Title: "🚌 Suivi des bus en temps réel",
         feat1Desc: "Suivez les positions en direct des bus d'Halifax Transit. Cliquez sur un bus pour voir sa ligne, sa destination, sa direction, sa vitesse et l'ID du bus.",
         feat2Title: "🗺️ Tracés et arrêts GTFS",
@@ -208,7 +208,7 @@ function createBusPopupContent(bus, lang = currentLang) {
 // Langugae function
 function setLanguage(lang) {
     currentLang = lang;
-    
+
     // Update Text on Screen
     document.getElementById('txt-nav-title').textContent = translations[lang].navTitle;
     document.getElementById('txt-welcome').textContent = translations[lang].welcome;
@@ -248,18 +248,18 @@ function setLanguage(lang) {
         if (marker.busData) {
             marker.setPopupContent(createBusPopupContent(marker.busData, lang));
         }
-    }); 
+    });
 
     if (currentBusData.length > 0) {
-        availableRoutes.clear(); 
-        updateRouteDropdown(currentBusData); 
+        availableRoutes.clear();
+        updateRouteDropdown(currentBusData);
     }
-    
+
     if (typeof updateShapeToggleUI === 'function') {
         updateShapeToggleUI();
     }
 
-    updateTime(); 
+    updateTime();
 }
 
 // Site Information Modal Functions
@@ -290,10 +290,10 @@ document.addEventListener('keydown', (e) => {
 function updateTime() {
     const timeElement = document.getElementById("current-time");
     const now = new Date();
-    
+
     const locale = timeFormat[currentLang].locale;
-    const formattedTime = now.toLocaleTimeString(locale); 
-    
+    const formattedTime = now.toLocaleTimeString(locale);
+
     timeElement.textContent = formattedTime;
     timeElement.setAttribute("datetime", now.toISOString());
 }
@@ -307,26 +307,26 @@ const map = L.map('map').setView([44.6488, -63.5752], 13);
 map.createPane('busesPane');
 map.getPane('busesPane').style.zIndex = 650;
 
-        // Add the background map tiles (using OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+// Add the background map tiles (using OpenStreetMap)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
 
-        // Storage for markers so we can update them instead of redrawing every time
+// Storage for markers so we can update them instead of redrawing every time
 
-    let busMarkers = {};
+let busMarkers = {};
 
-    // Search & Filter Variables
-    let selectedRoutes = new Set(); // Stores specific routes user has checked (e.g. "90", "1")
-    let availableRoutes = new Set(); // Stores all routes currently available from the API
+// Search & Filter Variables
+let selectedRoutes = new Set(); // Stores specific routes user has checked (e.g. "90", "1")
+let availableRoutes = new Set(); // Stores all routes currently available from the API
 
-    let currentBusData = [];
+let currentBusData = [];
 
-    let routeNames = {}; // Stores "90": "Larry Uteck"
+let routeNames = {}; // Stores "90": "Larry Uteck"
 
 
 
-    // --- FAVORITES SYSTEM ---
+// --- FAVORITES SYSTEM ---
 const FAV_STORAGE_KEY = "hrm_bus_favs";
 
 function getFavorites() {
@@ -335,48 +335,48 @@ function getFavorites() {
 
 function toggleFavorite(routeId) {
     const favs = getFavorites();
-    
+
     if (favs.has(routeId)) {
         favs.delete(routeId); // Remove if exists
     } else {
         favs.add(routeId);    // Add if new
     }
-    
+
     // Save back to browser
     localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(Array.from(favs)));
-    
+
     // Force the list to refresh immediately so the item jumps to top/bottom
     availableRoutes.clear(); // This trick forces 'updateRouteDropdown' to rebuild
     updateRouteDropdown(currentBusData);
 }
 
-    //Function to show error detail
+//Function to show error detail
 function showErrorDetail() {
     const title = translations[currentLang].errorTitle;
     const msg = translations[currentLang].errorMessage;
     alert(`${title}\n\n${msg}`);
 }
 
-let isFirstLoad = true; 
+let isFirstLoad = true;
 
 async function updateBuses() {
     try {
         const response = await fetch(`${API_BASE_URL}/buses`);
-        
+
         // --- NEW: READ SERVER HEADER ---
         const serverStaleCount = response.headers.get('X-Stale-Count');
         const warningBtn = document.getElementById("warning-btn");
-        
+
         // If server says data is old (e.g. 5+ stale fetches = 75 seconds), show warning
         if (serverStaleCount && parseInt(serverStaleCount) >= 5) {
-             warningBtn.style.display = "flex";
-             console.warn(`Server reports stale data. Count: ${serverStaleCount}`);
+            warningBtn.style.display = "flex";
+            console.warn(`Server reports stale data. Count: ${serverStaleCount}`);
         } else {
-             warningBtn.style.display = "none";
+            warningBtn.style.display = "none";
         }
 
         const buses = await response.json();
-        
+
         currentBusData = buses;
 
         if (isFirstLoad) {
@@ -392,7 +392,7 @@ async function updateBuses() {
 
         // 2. Track which buses are valid in this update
         const activeBusIds = new Set();
-        
+
         buses.forEach(bus => {
             // --- FILTER LOGIC ---
             // If we have selected routes, and this bus IS NOT in the selection, skip it.
@@ -406,7 +406,7 @@ async function updateBuses() {
             const popupContentBus = createBusPopupContent(bus, currentLang);
 
             const customIcon = L.divIcon({
-                className: 'custom-bus-icon-wrapper', 
+                className: 'custom-bus-icon-wrapper',
                 html: `
                     <div class="bus-marker-container">
                         <div class="arrow-orbit" style="transform: rotate(${bus.bearing}deg);">
@@ -416,8 +416,8 @@ async function updateBuses() {
                         <div class="bus-box">${bus.routeId}</div>
                     </div>
                 `,
-                iconSize: [30, 30], 
-                iconAnchor: [15, 15] 
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
             });
 
             if (busMarkers[bus.id]) {
@@ -439,7 +439,7 @@ async function updateBuses() {
                 marker.busData = bus;
                 busMarkers[bus.id] = marker;
             }
-            
+
         });
 
         Object.keys(busMarkers).forEach(id => {
@@ -457,17 +457,17 @@ async function updateBuses() {
     }
 }
 
-        // Update the map every 5 seconds
-        updateBuses();
-        setInterval(updateBuses, 5000);
+// Update the map every 5 seconds
+updateBuses();
+setInterval(updateBuses, 5000);
 
-        // --- ROUTE NAMES FETCHER ---
+// --- ROUTE NAMES FETCHER ---
 async function fetchRouteNames() {
     try {
         const response = await fetch(`${API_BASE_URL}/routes`);
         routeNames = await response.json();
         console.log("Route names loaded.");
-        
+
         // If we already have bus data, refresh the list immediately to show names
         if (currentBusData.length > 0) {
             updateRouteDropdown(currentBusData);
@@ -477,15 +477,15 @@ async function fetchRouteNames() {
     }
 }
 
-        // Call this on startup!
-        fetchRouteNames();
+// Call this on startup!
+fetchRouteNames();
 
-        // Function to locate user
+// Function to locate user
 let userMarker = null;
 
 function locateUser() {
     const locationPopupContent = translations[currentLang].locationPopup;
-    
+
     // Check if browser supports geolocation
     if (!navigator.geolocation) {
         alert(translations[currentLang].locationNotSupportedAlert);
@@ -504,7 +504,7 @@ function locateUser() {
             // Create a "You are Here" marker (Red pulsing dot)
             if (userMarker) {
                 userMarker.setLatLng([lat, lng]);
-                userMarker.setPopupContent(locationPopupContent); 
+                userMarker.setPopupContent(locationPopupContent);
                 userMarker.openPopup();
             } else {
                 // Simple red circle marker
@@ -516,7 +516,7 @@ function locateUser() {
                     opacity: 1,
                     fillOpacity: 0.8
                 }).addTo(map);
-                
+
                 userMarker.bindPopup(locationPopupContent).openPopup();
             }
         },
@@ -549,7 +549,7 @@ document.addEventListener('click', (e) => {
 searchInput.addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase();
     const items = document.querySelectorAll('.route-item');
-    
+
     items.forEach(item => {
         // Search inside the whole text of the item (Number + Name)
         if (item.innerText.toLowerCase().includes(term)) {
@@ -565,13 +565,13 @@ function clearSelection() {
     selectedRoutes.clear();
     searchInput.value = '';
     clearBtn.style.display = 'none';
-    
+
     // Uncheck all boxes
     document.querySelectorAll('.route-checkbox').forEach(cb => cb.checked = false);
-    
+
     // Show all items in list again
     document.querySelectorAll('.route-item').forEach(item => item.style.display = 'flex');
-    
+
     updateBuses(); // Refresh map to show all
     updateShapeToggleUI(); // Refresh shape toggle UI state
 }
@@ -583,14 +583,14 @@ function toggleRoute(routeId, isChecked) {
     } else {
         selectedRoutes.delete(routeId);
     }
-    
+
     // Show/Hide "X" button
     if (selectedRoutes.size > 0) {
         clearBtn.style.display = 'block';
     } else {
         clearBtn.style.display = 'none';
     }
-    
+
     updateBuses(); // Refresh map immediately
     updateShapeToggleUI(); // Refresh shape toggle UI state
 }
@@ -638,10 +638,10 @@ function updateRouteDropdown(buses) {
         const div = document.createElement('div');
         div.className = 'route-item';
         div.setAttribute('data-route', routeId);
-        
+
         const isChecked = selectedRoutes.has(routeId) ? 'checked' : '';
-        const name = routeNames[routeId] || ""; 
-        
+        const name = routeNames[routeId] || "";
+
         // --- Determine Star State ---
         const isFav = favorites.has(routeId);
         const starClass = isFav ? 'star-btn active' : 'star-btn';
@@ -663,9 +663,9 @@ function updateRouteDropdown(buses) {
                 div.style.display = 'none';
             }
         }
-        
+
         // --- Event Listeners ---
-        
+
         // 1. Click Star -> Toggle Favorite
         const starBtn = div.querySelector('.star-btn');
         starBtn.addEventListener('click', (e) => {
@@ -728,7 +728,7 @@ function checkTorontoPin() {
     const zoom = map.getZoom();
     const bounds = map.getBounds();
     const isTorontoInView = bounds.contains([43.6532, -79.3832]);
-    
+
     // Show pin when user pans over Toronto region (zoom >= 4)
     if (zoom >= 4 && isTorontoInView) {
         if (!map.hasLayer(torontoMarker)) {
@@ -766,7 +766,7 @@ if (shapeCheckbox) {
 function updateShapeToggleUI() {
     const size = selectedRoutes.size;
     const t = translations[currentLang] || translations['en'];
-    
+
     const toggleTextEl = document.getElementById('txt-shape-toggle');
     if (toggleTextEl) toggleTextEl.textContent = t.showShapesStops;
 
@@ -785,7 +785,7 @@ function updateShapeToggleUI() {
         if (shapeCheckbox) shapeCheckbox.disabled = false;
         if (shapeLabel) shapeLabel.classList.remove('disabled');
         if (toggleHintEl) toggleHintEl.textContent = "";
-        
+
         if (isShapeToggleChecked) {
             renderRouteShapesAndStops();
         } else {
@@ -973,4 +973,4 @@ async function renderRouteShapesAndStops() {
 }
 
 // Initial UI check for shape toggle
-updateShapeToggleUI();
+updateShapeToggleUI();

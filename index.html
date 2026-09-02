@@ -1,9 +1,34 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+    <meta charset="UTF-8">
     <meta name="google-site-verification" content="HS23XLLr0EKw34qE_TWISHXewnMlEFVFtyuvS2KO5vc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Halifax Bus Tracker</title>
+    
+    <!-- Primary Search Engine Optimization (SEO) Meta Tags -->
+    <title>Halifax Bus Tracker - Live Real-Time Halifax Transit Map (HRM)</title>
+    <meta name="description" content="Track Halifax Transit buses live in real time on an interactive map. View real-time bus locations, GTFS route shapes, stop arrival schedules, vehicle speeds, and directions for Halifax, Dartmouth, and Bedford.">
+    <meta name="keywords" content="Halifax Bus Tracker, Halifax Transit live map, HRM bus tracker, Halifax GTFS realtime, Halifax bus schedule, Dartmouth bus map, Bedford transit live, Halifax bus location, HRM Transit">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://halifax-bus-tracker-psi.vercel.app/" />
+
+    <!-- Open Graph / Facebook / Social Sharing Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://halifax-bus-tracker-psi.vercel.app/">
+    <meta property="og:title" content="Halifax Bus Tracker - Live Real-Time Halifax Transit Map (HRM)">
+    <meta property="og:description" content="Track Halifax Transit buses live on an interactive map. Real-time vehicle positions, GTFS route shapes, bus speeds, and stop schedules for Halifax commuters.">
+    <meta property="og:image" content="https://halifax-bus-tracker-psi.vercel.app/icon-512.png">
+    <meta property="og:site_name" content="Halifax Bus Tracker">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://halifax-bus-tracker-psi.vercel.app/">
+    <meta name="twitter:title" content="Halifax Bus Tracker - Live Real-Time Halifax Transit Map (HRM)">
+    <meta name="twitter:description" content="Track Halifax Transit buses live on an interactive map with real-time vehicle locations, GTFS route shapes, and stop arrival schedules.">
+    <meta name="twitter:image" content="https://halifax-bus-tracker-psi.vercel.app/icon-512.png">
+
+    <!-- Web App & Icon Configurations -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2c3e50">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -11,19 +36,40 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HRM Buses">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚌</text></svg>">
+    
+    <!-- Structured Data (JSON-LD) for Google Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Halifax Bus Tracker",
+      "url": "https://halifax-bus-tracker-psi.vercel.app/",
+      "description": "Real-time bus tracking web application for Halifax Transit (HRM). Features live vehicle positions, GTFS route shapes, speeds, and stop schedules.",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CAD"
+      }
+    }
+    </script>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+
     <div id="loading-overlay">
         <div class="spinner"></div>
-        <h3 id="txt-loading-msg">Connecting to server...<br>This may take up to 40 seconds if the server is waking up.</h3>
+        <h3 id="txt-loading-msg">Connecting to server...<br>This may take up to 40 seconds if the server is waking up.
+        </h3>
     </div>
-    
-    
+
+
     <div id="navbar">
-        <div class="nav-title" id="txt-nav-title">HRM Bus Tracker</div>
+        <div class="nav-title" id="txt-nav-title">Halifax Bus Tracker</div>
         <div class="nav-buttons">
             <button class="lang-btn" onclick="setLanguage('en')">EN</button>
             <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
@@ -31,20 +77,21 @@
         </div>
     </div>
 
-<div id="search-container">
+    <div id="search-container">
         <div class="search-box">
             <span class="search-icon">🔍</span>
             <input type="text" id="route-search" placeholder="Search Route (e.g. 1, 90)...">
             <button id="clear-search" onclick="clearSelection()" style="display:none;">✕</button>
         </div>
-        
+
         <div id="shape-toggle-container">
             <label class="switch-label" id="shape-toggle-label">
                 <input type="checkbox" id="shape-toggle-checkbox" disabled>
                 <span class="slider round"></span>
                 <span id="txt-shape-toggle" class="toggle-text">Show Route Shape & Stops</span>
             </label>
-            <div id="shape-toggle-hint" class="toggle-hint"><span id="txt-shape-toggle-hint">Please select 1 to 3 routes to view shapes & stops</span></div>
+            <div id="shape-toggle-hint" class="toggle-hint"><span id="txt-shape-toggle-hint">Please select 1 to 3 routes
+                    to view shapes & stops</span></div>
         </div>
 
         <div id="route-list" class="route-list-hidden"></div>
@@ -55,7 +102,7 @@
     </div>
 
     <div id="info">
-        <h2 id="txt-welcome">Thank you for using HRM Bus Tracker!</h2>
+        <h2 id="txt-welcome">Thank you for using Halifax Bus Tracker!</h2>
         <p>
             <span id="txt-time">Current Time:</span>
             <time id="current-time">Loading...</time>
@@ -64,9 +111,10 @@
 
     <div id="locate">
         <button id="locate-btn" onclick="locateUser()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
-        </svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
+            </svg>
         </button>
     </div>
 
@@ -74,7 +122,8 @@
     <div id="site-info-container">
         <button id="site-info-btn" onclick="openSiteInfoModal()" title="About & Instructions">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <path
+                    d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
             </svg>
         </button>
     </div>
@@ -83,18 +132,21 @@
     <div id="site-info-backdrop" class="modal-backdrop-hidden" onclick="closeSiteInfoModal(event)">
         <div class="site-info-card" onclick="event.stopPropagation()">
             <button class="modal-close-btn" onclick="closeSiteInfoModal()">&times;</button>
-            
-            <h2 id="txt-about-title" class="site-info-title">About HRM Bus Tracker</h2>
-            <p id="txt-about-intro" class="site-info-intro">Welcome to HRM Bus Tracker! Here is what you can do on this website:</p>
+
+            <h2 id="txt-about-title" class="site-info-title">About Halifax Bus Tracker</h2>
+            <p id="txt-about-intro" class="site-info-intro">Welcome to Halifax Bus Tracker! Here is what you can do on
+                this website:</p>
 
             <div class="info-features-grid">
                 <div class="feature-item">
                     <h3 id="txt-feat1-title">🚌 Real-Time Bus Tracking</h3>
-                    <p id="txt-feat1-desc">Track live bus locations across Halifax Transit. Click any bus icon to view its route, destination, direction, speed, and Bus ID.</p>
+                    <p id="txt-feat1-desc">Track live bus locations across Halifax Transit. Click any bus icon to view
+                        its route, destination, direction, speed, and Bus ID.</p>
                 </div>
                 <div class="feature-item">
                     <h3 id="txt-feat2-title">🗺️ Route Shapes & GTFS Stops</h3>
-                    <p id="txt-feat2-desc">Select 1 to 3 routes to display GTFS route paths and stops with route labels. Multi-route shared stops dynamically display split color sector icons.</p>
+                    <p id="txt-feat2-desc">Select 1 to 3 routes to display GTFS route paths and stops with route labels.
+                        Multi-route shared stops dynamically display split color sector icons.</p>
                 </div>
                 <div class="feature-item">
                     <h3 id="txt-feat3-title">📍 Geolocation</h3>
@@ -106,18 +158,23 @@
                 </div>
                 <div class="feature-item">
                     <h3 id="txt-feat5-title">🏙️ GTA Live Transit Tracker</h3>
-                    <p id="txt-feat5-desc">Exploring the Greater Toronto Area? Check out our sister project: <a href="https://gta-public-transportation-tracker.vercel.app/" target="_blank" rel="noopener noreferrer" style="color: #0056b3; font-weight: 600;">GTA Live Transit Tracker &rarr;</a></p>
+                    <p id="txt-feat5-desc">Exploring the Greater Toronto Area? Check out our sister project: <a
+                            href="https://gta-public-transportation-tracker.vercel.app/" target="_blank"
+                            rel="noopener noreferrer" style="color: #0056b3; font-weight: 600;">GTA Live Transit Tracker
+                            &rarr;</a></p>
                 </div>
             </div>
 
             <div class="instagram-banner">
                 <div class="instagram-header">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                     </svg>
                     <span id="txt-insta-title">Follow Us on Instagram!</span>
                 </div>
-                <a href="https://www.instagram.com/track_yourbus/" target="_blank" rel="noopener noreferrer" class="instagram-link-btn" id="txt-insta-btn">
+                <a href="https://www.instagram.com/track_yourbus/" target="_blank" rel="noopener noreferrer"
+                    class="instagram-link-btn" id="txt-insta-btn">
                     Visit @track_yourbus &rarr;
                 </a>
             </div>
@@ -127,10 +184,12 @@
                     <span id="txt-github-title">🐙 Open Source GitHub Repositories</span>
                 </div>
                 <div class="github-buttons-row">
-                    <a href="https://github.com/Hazelnut-Hunter/Halifax-Bus-Tracker" target="_blank" rel="noopener noreferrer" class="github-link-btn" id="txt-github-frontend">
+                    <a href="https://github.com/Hazelnut-Hunter/Halifax-Bus-Tracker" target="_blank"
+                        rel="noopener noreferrer" class="github-link-btn" id="txt-github-frontend">
                         Frontend Repo &rarr;
                     </a>
-                    <a href="https://github.com/Hazelnut-Hunter/Halifax-Bus-Tracker-Backend" target="_blank" rel="noopener noreferrer" class="github-link-btn" id="txt-github-backend">
+                    <a href="https://github.com/Hazelnut-Hunter/Halifax-Bus-Tracker-Backend" target="_blank"
+                        rel="noopener noreferrer" class="github-link-btn" id="txt-github-backend">
                         Backend Repo &rarr;
                     </a>
                 </div>
@@ -141,7 +200,7 @@
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
+
     <script src="script.js"></script>
 
     <script>
@@ -159,4 +218,5 @@
     </script>
 
 </body>
+
 </html>
