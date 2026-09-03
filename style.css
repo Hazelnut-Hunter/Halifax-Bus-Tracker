@@ -219,16 +219,15 @@ html, body {
     filter: drop-shadow(0 0 2px white);
 }
 
-#locate-btn {
+/* FLOATING MAP CONTROLS (Desktop Base: 50px) */
+#locate-btn, #site-info-btn, #theme-btn {
     position: absolute;
-    bottom: 30px;
     right: 20px;
     z-index: 1000;
     
     width: 50px;
     height: 50px;
-    background-color: white;
-    color: #333;
+    background-color: #ffffff;
     
     border: none;
     border-radius: 10%;
@@ -238,19 +237,31 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.2s;
-    
-    color: #444; 
-
+    transition: background-color 0.2s, transform 0.15s ease;
 }
 
-#locate-btn:hover {
-    background-color: #f0f0f0;
+#locate-btn {
+    bottom: 30px;
+    color: #444;
 }
 
-#locate-btn:active {
-    background-color: #e0e0e0;
-    transform: translateY(1px);
+#site-info-btn {
+    bottom: 90px;
+    color: #0056b3;
+}
+
+#theme-btn {
+    bottom: 150px;
+    color: #2c3e50;
+}
+
+#locate-btn:hover, #site-info-btn:hover, #theme-btn:hover {
+    background-color: #f0f4f8;
+    transform: scale(1.05);
+}
+
+#locate-btn:active, #site-info-btn:active, #theme-btn:active {
+    transform: scale(0.95);
 }
 
 /* SEARCH WIDGET (Google Maps Style) */
@@ -434,28 +445,29 @@ html, body {
         max-width: none;           /* Remove desktop width limit */
     }
 
-    /* 3. LOCATE BUTTON: Bigger Thumb Target */
+    /* 3. FLOATING ACTION BUTTONS: Same 60px Size Stack on Mobile */
+    #locate-btn, #site-info-btn, #theme-btn, #warning-btn {
+        width: 60px !important;
+        height: 60px !important;
+        right: 15px !important;
+    }
+
     #locate-btn {
-        width: 60px;
-        height: 60px;
-        bottom: 25px;
-        right: 15px;
+        bottom: 25px !important;
     }
 
     #site-info-btn {
-        width: 60px;
-        height: 60px;
-        bottom: 95px;
-        right: 15px;
+        bottom: 95px !important;
+    }
+
+    #theme-btn {
+        bottom: 165px !important;
     }
 
     #warning-btn {
-        top: auto;
-        left: auto;
-        right: 15px;
-        bottom: 165px;
-        width: 60px;
-        height: 60px;
+        top: auto !important;
+        left: auto !important;
+        bottom: 235px !important;
     }
 
     /* 5. INFO WIDGET: Move to Bottom Left */
@@ -705,38 +717,8 @@ input:disabled + .slider {
 }
 
 /* =========================================
-   SITE INFO BUTTON & MODAL OVERLAY
+   SITE INFO MODAL OVERLAY
    ========================================= */
-#site-info-btn {
-    position: absolute;
-    bottom: 90px; /* Floating right above locate button on desktop */
-    right: 20px;
-    z-index: 1000;
-    
-    width: 50px;
-    height: 50px;
-    background-color: #ffffff;
-    color: #0056b3;
-    
-    border: none;
-    border-radius: 10%;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    cursor: pointer;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.2s, transform 0.15s ease;
-}
-
-#site-info-btn:hover {
-    background-color: #f0f4f8;
-    transform: scale(1.05);
-}
-
-#site-info-btn:active {
-    transform: scale(0.95);
-}
 
 /* Modal Backdrop */
 #site-info-backdrop {

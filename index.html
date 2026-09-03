@@ -5,46 +5,51 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="HS23XLLr0EKw34qE_TWISHXewnMlEFVFtyuvS2KO5vc" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- Primary Search Engine Optimization (SEO) Meta Tags -->
-    <title>Halifax Bus Tracker - Live Real-Time Halifax Transit Map (HRM)</title>
-    <meta name="description" content="Track Halifax Transit buses live in real time on an interactive map. View real-time bus locations, GTFS route shapes, stop arrival schedules, vehicle speeds, and directions for Halifax, Dartmouth, and Bedford.">
-    <meta name="keywords" content="Halifax Bus Tracker, Halifax Transit live map, HRM bus tracker, Halifax GTFS realtime, Halifax bus schedule, Dartmouth bus map, Bedford transit live, Halifax bus location, HRM Transit">
+
+
+    <title>Halifax Bus Tracker - Live Real-Time Halifax Transit Map</title>
+    <meta name="description"
+        content="Track Halifax Transit buses live in real time on an interactive map. View real-time bus locations, GTFS route shapes, stop arrival schedules, vehicle speeds, and directions for Halifax, Dartmouth, and Bedford.">
+    <meta name="keywords"
+        content="Halifax Bus Tracker, Halifax Transit live map, HRM bus tracker, Halifax GTFS realtime, Halifax bus schedule, Dartmouth bus map, Bedford transit live, Halifax bus location, HRM Transit">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://halifax-bus-tracker-psi.vercel.app/" />
 
-    <!-- Open Graph / Facebook / Social Sharing Meta Tags -->
+
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://halifax-bus-tracker-psi.vercel.app/">
-    <meta property="og:title" content="Halifax Bus Tracker - Live Real-Time Halifax Transit Map (HRM)">
-    <meta property="og:description" content="Track Halifax Transit buses live on an interactive map. Real-time vehicle positions, GTFS route shapes, bus speeds, and stop schedules for Halifax commuters.">
+    <meta property="og:title" content="Halifax Bus Tracker - Live Real-Time Halifax Transit Map">
+    <meta property="og:description"
+        content="Track Halifax Transit buses live on an interactive map. Real-time vehicle positions, GTFS route shapes, bus speeds, and stop schedules for Halifax commuters.">
     <meta property="og:image" content="https://halifax-bus-tracker-psi.vercel.app/icon-512.png">
     <meta property="og:site_name" content="Halifax Bus Tracker">
 
-    <!-- Twitter Card Meta Tags -->
+
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://halifax-bus-tracker-psi.vercel.app/">
-    <meta name="twitter:title" content="Halifax Bus Tracker - Live Real-Time Halifax Transit Map (HRM)">
-    <meta name="twitter:description" content="Track Halifax Transit buses live on an interactive map with real-time vehicle locations, GTFS route shapes, and stop arrival schedules.">
+    <meta name="twitter:title" content="Halifax Bus Tracker - Live Real-Time Halifax Transit Map">
+    <meta name="twitter:description"
+        content="Track Halifax Transit buses live on an interactive map with real-time vehicle locations, GTFS route shapes, and stop arrival schedules.">
     <meta name="twitter:image" content="https://halifax-bus-tracker-psi.vercel.app/icon-512.png">
 
-    <!-- Web App & Icon Configurations -->
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2c3e50">
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HRM Buses">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚌</text></svg>">
-    
-    <!-- Structured Data (JSON-LD) for Google Rich Snippets -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚌</text></svg>">
+
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Halifax Bus Tracker",
       "url": "https://halifax-bus-tracker-psi.vercel.app/",
-      "description": "Real-time bus tracking web application for Halifax Transit (HRM). Features live vehicle positions, GTFS route shapes, speeds, and stop schedules.",
+      "description": "Real-time bus tracking web application for Halifax Transit. Features live vehicle positions, GTFS route shapes, speeds, and stop schedules.",
       "applicationCategory": "TravelApplication",
       "operatingSystem": "All",
       "offers": {
@@ -118,7 +123,7 @@
         </button>
     </div>
 
-    <!-- Site Info Button (Bottom Right) -->
+
     <div id="site-info-container">
         <button id="site-info-btn" onclick="openSiteInfoModal()" title="About & Instructions">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -128,7 +133,15 @@
         </button>
     </div>
 
-    <!-- Site Info Modal -->
+    <div id="theme-switch-container">
+        <button id="theme-btn" onclick="toggleMapTheme()" title="Switch Map Theme (Light / Dark / Satellite)">
+            <svg id="theme-btn-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 000-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+            </svg>
+        </button>
+    </div>
+
+
     <div id="site-info-backdrop" class="modal-backdrop-hidden" onclick="closeSiteInfoModal(event)">
         <div class="site-info-card" onclick="event.stopPropagation()">
             <button class="modal-close-btn" onclick="closeSiteInfoModal()">&times;</button>

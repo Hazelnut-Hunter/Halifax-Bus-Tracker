@@ -43,7 +43,10 @@ const translations = {
         instaBtn: "Visit @track_yourbus →",
         githubTitle: "🐙 Open Source GitHub Repositories",
         githubFrontend: "Frontend Repo →",
-        githubBackend: "Backend Repo →"
+        githubBackend: "Backend Repo →",
+        themeLight: "Theme: Light (Click for Dark)",
+        themeDark: "Theme: Dark (Click for Satellite)",
+        themeSatellite: "Theme: Satellite (Click for Light)"
     },
     fr: {
         navTitle: "Info-bus Halifax",
@@ -88,7 +91,10 @@ const translations = {
         instaBtn: "Découvrir @track_yourbus →",
         githubTitle: "🐙 Dépôts GitHub Open Source",
         githubFrontend: "Dépôt Frontend →",
-        githubBackend: "Dépôt Backend →"
+        githubBackend: "Dépôt Backend →",
+        themeLight: "Thème : Clair (Cliquer pour Sombre)",
+        themeDark: "Thème : Sombre (Cliquer pour Satellite)",
+        themeSatellite: "Thème : Satellite (Cliquer pour Clair)"
     },
     zh: {
         navTitle: "哈利法克斯公交追踪器",
@@ -133,7 +139,10 @@ const translations = {
         instaBtn: "访问 @track_yourbus →",
         githubTitle: "🐙 开源 GitHub 代码库",
         githubFrontend: "前端代码库 →",
-        githubBackend: "后端代码库 →"
+        githubBackend: "后端代码库 →",
+        themeLight: "地图主题：浅色（点击切换至深色）",
+        themeDark: "地图主题：深色（点击切换至卫星图）",
+        themeSatellite: "地图主题：卫星图（点击切换至浅色）"
     }
 };
 // Time formating dictionary
@@ -259,6 +268,10 @@ function setLanguage(lang) {
         updateShapeToggleUI();
     }
 
+    if (typeof updateThemeButtonUI === 'function') {
+        updateThemeButtonUI();
+    }
+
     updateTime();
 }
 
@@ -307,10 +320,88 @@ const map = L.map('map').setView([44.6488, -63.5752], 13);
 map.createPane('busesPane');
 map.getPane('busesPane').style.zIndex = 650;
 
-// Add the background map tiles (using OpenStreetMap)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+// --- MAP THEMES (Light [Default], Dark, Satellite) ---
+const MAP_THEMES = {
+    light: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+    }),
+    dark: L.layerGroup([
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+            maxZoom: 19
+        }),
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '',
+            maxZoom: 19
+        })
+    ]),
+    satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        maxZoom: 19
+    })
+};
+
+const THEME_STORAGE_KEY = 'hrm_map_theme';
+let currentTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+if (!MAP_THEMES[currentTheme]) currentTheme = 'light';
+
+// Add the initial map tile layer (default Light)
+MAP_THEMES[currentTheme].addTo(map);
+
+// SVG Icons for Map Theme Switcher Button
+const THEME_ICONS = {
+    light: '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 00-1.41 0 .996.996 0 000 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 000-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 000-1.41.996.996 0 00-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 000-1.41.996.996 0 000-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>',
+    dark: '<path d="M12.3 2a10 10 0 0 0-.19 14 10 10 0 0 0 11.89 3.86 1 1 0 0 0 .47-1.39 1 1 0 0 0-1.12-.56 8 8 0 0 1-9.9-9.9 1 1 0 0 0-.56-1.12A1 1 0 0 0 12.3 2z"/>',
+    satellite: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>'
+};
+
+function updateThemeButtonUI() {
+    const btn = document.getElementById('theme-btn');
+    const iconSvg = document.getElementById('theme-btn-icon');
+    if (!btn || !iconSvg) return;
+
+    const t = translations[currentLang] || translations['en'];
+    let label = t.themeLight;
+    if (currentTheme === 'dark') label = t.themeDark;
+    else if (currentTheme === 'satellite') label = t.themeSatellite;
+
+    btn.title = label;
+    iconSvg.innerHTML = THEME_ICONS[currentTheme] || THEME_ICONS.light;
+}
+
+function setMapTheme(themeName) {
+    if (!MAP_THEMES[themeName]) return;
+
+    if (map.hasLayer(MAP_THEMES[currentTheme])) {
+        map.removeLayer(MAP_THEMES[currentTheme]);
+    }
+
+    currentTheme = themeName;
+    MAP_THEMES[currentTheme].addTo(map);
+
+    // Bring tile layer to back safely for both TileLayer and LayerGroup
+    if (typeof MAP_THEMES[currentTheme].bringToBack === 'function') {
+        MAP_THEMES[currentTheme].bringToBack();
+    } else if (typeof MAP_THEMES[currentTheme].eachLayer === 'function') {
+        MAP_THEMES[currentTheme].eachLayer(l => {
+            if (typeof l.bringToBack === 'function') l.bringToBack();
+        });
+    }
+
+    localStorage.setItem(THEME_STORAGE_KEY, currentTheme);
+
+    updateThemeButtonUI();
+}
+
+function toggleMapTheme() {
+    const themeOrder = ['light', 'dark', 'satellite'];
+    const nextIndex = (themeOrder.indexOf(currentTheme) + 1) % themeOrder.length;
+    setMapTheme(themeOrder[nextIndex]);
+}
+
+// Initialize Theme Button UI on load
+updateThemeButtonUI();
 
 // Storage for markers so we can update them instead of redrawing every time
 
